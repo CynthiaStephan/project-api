@@ -15,7 +15,9 @@ const userController = {
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Server Error' });
-        }
+        } 
+
+        
     },
 
     // Get user by id
