@@ -37,11 +37,15 @@ const userModel = {
                 if (err) {
                     return reject(err);
                 }
+                if (this.changes === 0) { // Vérifie si une ligne a été affectée
+                    return reject(new Error("User not found"));
+                }
                 resolve({ id, name, email, age });
             });
             stmt.finalize();
         });
     },
+    
 
     // Delete user
     destroy: (id) => {

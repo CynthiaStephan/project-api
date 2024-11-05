@@ -21,7 +21,7 @@ const userController = {
     },
 
     // Get user by id
-    getUser: async (req, res) => {
+    readUser: async (req, res) => {
         try {
             const { id } = req.params;
             const user = await userModel.findById(id);
@@ -43,7 +43,7 @@ const userController = {
     },
 
     // Edit user 
-    editUser: async (req, res) => {
+    updateUser: async (req, res) => {
         try {
             // search user by id with url params
             const { id } = req.params; 
@@ -56,12 +56,12 @@ const userController = {
                 return res.status(404).json({ message: "User not found" });
             }
             // 
-            await user.update({ name, email, age });
+            const updateUser = await userModel.update(id, { name, email, age });
             return res.status(200).json({ 
-                id: user.id, 
-                name: user.name,
-                email: user.email,
-                age: user.age
+                id: updateUser.id, 
+                name: updateUser.name,
+                email: updateUser.email,
+                age: updateUser.age
             });
         } catch (error) {
             console.error(error);
@@ -73,17 +73,18 @@ const userController = {
         try {
             const { id } = req.params;
             const user = await userModel.findById(id);
-            if(!user) {
+            if (!user) {
                 return res.status(404).json({ message: "User not found" });
             }
-
-            await user.destroy({
-                where: {
-                    id: { id },
-                }
-            });
-            return res.status(200).json({ message : "User deleted"});
-
+    
+            // Appelle la méthode destroy du modèle avec l'id
+            const deletedCount = await userModel.destroy(id);
+            if (deletedCount === 0) {
+                return res.status(404).json({ message: "User not found" });
+            }
+    
+            return res.status(200).json({ message: "User deleted" });
+    
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Server Error' });
@@ -91,5 +92,6 @@ const userController = {
     },
     
 };
+
 
 module.exports = userController;
