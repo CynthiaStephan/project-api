@@ -6,7 +6,7 @@ const router = Router();
 // Add user
 router.post('/api/users', userController.addUser);
 // Get user
-router.get('/api/users/:id', userController.readUser);
+router.get('/api/users/:id', userController.getUser);
 // Edit user
 router.put('/api/users/:id', userController.updateUser);
 // Delete user

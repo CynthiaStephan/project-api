@@ -37,7 +37,7 @@ const userController = {
     },
 
     // Get user by id
-    readUser: async (req, res) => {
+    getUser: async (req, res) => {
         try {
             const { id } = req.params;
             const user = await userModel.findById(id);
