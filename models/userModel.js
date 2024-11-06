@@ -59,7 +59,19 @@ const userModel = {
             });
             stmt.finalize();
         });
+    },
+    // Pour vérifier que le mail n'existe pas
+    getByMail: (email) => {
+        return new Promise((resolve, reject) => {
+            db.get("SELECT * FROM users WHERE email = ?", [email], (err, row) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(row);
+            });
+        });
     }
+
 };
 
 module.exports = userModel;
